@@ -5,14 +5,9 @@ p, input, label, div, h1, textarea, select, option {
   font-size: 14px;
 }
 
-h3 {
-  color: white;
-  font-weight: 400;
-}
-
 body {
   margin: 0px;
-  background: linear-gradient(to bottom, #1E3850, #20255E);
+  background: linear-gradient(to bottom, #394290, #22244A);
 }
 
 body .container {
@@ -32,16 +27,21 @@ body .container img.logo {
   margin-bottom: 20px;
 }
 
-body .container input, body .container select {
+body .container input, body .container select, body .container textarea {
   display: block;
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
   padding: 10px;
   margin: 5px;
   border-radius: 5px;
+  resize: none;
 }
 
-body .container input {
+body .container input.guid, body .container select.guid, body .container textarea.guid {
+  width: 80px;
+}
+
+body .container input, body .container textarea {
   width: 100%;
 }
 
@@ -58,7 +58,48 @@ body .container .general-info, body .container .item {
   flex-direction: column;
   width: 100%;
   overflow: hidden;
-  margin: 50px 0px;
+  margin-bottom: 10px;
+}
+
+body .container .general-info.collapsed .header .collapse-icon, body .container .item.collapsed .header .collapse-icon {
+  transform: rotate(-90deg);
+}
+
+body .container .general-info.collapsed .item-container, body .container .item.collapsed .item-container {
+  height: 0px;
+}
+
+body .container .general-info .header, body .container .item .header {
+  display: flex;
+  align-items: center;
+}
+
+body .container .general-info .header .collapse-icon, body .container .item .header .collapse-icon {
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body .container .general-info .header h3.item-title, body .container .item .header h3.item-title {
+  display: inline-block;
+  margin: 5px;
+  color: white;
+  font-weight: 400;
+  font-size: 17px;
+}
+
+body .container .general-info .header p.pat-button, body .container .item .header p.pat-button {
+  margin-left: auto;
+  margin-right: 10px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 4px;
 }
 
 body .container .general-info.visible .item-container, body .container .item.visible .item-container {
@@ -66,7 +107,7 @@ body .container .general-info.visible .item-container, body .container .item.vis
 }
 
 body .container .general-info .item-container, body .container .item .item-container {
-  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: height 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body .container .general-info .item-container .row, body .container .item .item-container .row {
@@ -76,4 +117,109 @@ body .container .general-info .item-container .row, body .container .item .item-
 
 body .container .item {
   display: block;
+}
+
+body .dialog-container {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: opacity 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body .dialog-container.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+body .dialog-container.saving .dialog > * {
+  opacity: 0;
+}
+
+body .dialog-container .dialog {
+  width: 600px;
+  max-width: calc(100% - 150px);
+  max-height: calc(100% - 100px);
+  padding: 0px 25px;
+  background-color: #eeeeee;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.24);
+  overflow-y: scroll;
+}
+
+body .dialog-container .dialog h1 {
+  font-weight: 500;
+  font-size: 20px;
+  color: #212121;
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+
+body .dialog-container .dialog h2 {
+  font-weight: 400;
+  font-size: 18px;
+  color: #212121;
+}
+
+body .dialog-container .dialog p {
+  font-weight: 400;
+  font-size: 14px;
+  color: #333333;
+  margin: 8px 0px;
+}
+
+body .dialog-container .dialog a {
+  font-weight: 500;
+  font-size: 14px;
+  color: #156FDB;
+  text-decoration: none;
+  transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body .dialog-container .dialog a:active {
+  opacity: 0.8;
+}
+
+body .dialog-container .dialog button {
+  outline: none;
+  background-color: transparent;
+  border: none;
+  color: #000000;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 8px;
+  margin: 10px;
+  margin-top: 5px;
+  float: right;
+  transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body .dialog-container .dialog button:active {
+  opacity: 0.8;
+}
+
+body .dialog-container .dialog input.pat {
+  border: none;
+  border-bottom: 2px solid #212121;
+  background-color: transparent;
+  outline: none;
+  color: rgba(0, 0, 0, 0.8);
+  width: calc(100% - 26px);
+  padding: 8px;
+  margin: 0px;
+  color: #212121;
+  font-size: 14px;
+  transition: border-bottom 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body .dialog-container .dialog input.pat:focus {
+  border-bottom: 2px solid #7F34AD;
 }

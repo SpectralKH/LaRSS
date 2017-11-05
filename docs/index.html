@@ -14,11 +14,24 @@
   <meta name="theme-color" content="#ffffff"/>
 </head>
 <body>
+  <div class="dialog-container pat-dialog">
+    <div class="dialog">
+      <h1>Sync your tasks (beta)</h1>
+      <input tabindex="-1" placeholder="GitHub Personal Access Token" class="pat"/>
+      <h2>How to get your personal access token</h2>
+      <p>1. Log in or register on <a target="_blank" href="https://github.com/">GitHub</a>.</p>
+      <p>2. Create a new "Personal access token" by going to <a target="_blank" href="https://github.com/settings/tokens/new">this link</a>. Write Taskler or whatever into the Token description field. Make sure "gist" is checked, and click "Generate token".</p>
+      <p>3. Copy the random text shown in the green field (This is your personal access token). Paste this text into the field above, in every instance of Taskler you have.</p>
+      <p><b>If your personal access token has already been used, your offline tasks will be replaced.</b></p>
+      <button tabindex="-1" class="save-pat">SAVE</button>
+    </div>
+  </div>
   <div class="container"><img src="logo.png" class="logo"/>
     <div class="general-info">
       <div class="header">
         <div class="collapse-icon"></div>
-        <h3 class="header">Item 1</h3>
+        <h3 class="item-title">General Info</h3>
+        <p class="pat-button">GitHub Personal Access Token</p>
       </div>
       <div class="item-container">
         <div class="row">
@@ -29,13 +42,11 @@
           <input type="text" placeholder="Subtitle" class="subtitle"/>
         </div>
         <div class="row">
-          <input type="text" placeholder="Description" class="description"/>
+          <textarea type="text" placeholder="Description" rows="1" class="description"></textarea>
         </div>
         <div class="row">
-          <input type="text" placeholder="Link" class="link"/>
-        </div>
-        <div class="row">
-          <input type="text" placeholder="Image Link" class="imageLink"/>
+          <input type="text" placeholder="URL" class="url"/>
+          <input type="text" placeholder="Image URL" class="image-url"/>
         </div>
         <div class="row">
           <select class="language">
@@ -59,41 +70,27 @@
     <div class="item">
       <div class="header">
         <div class="collapse-icon"></div>
-        <h3 class="header">Item 1</h3>
+        <h3 class="item-title">Item 1</h3>
       </div>
       <div class="item-container">
         <div class="row">
+          <input type="text" placeholder="GUID" class="guid"/>
           <input type="text" placeholder="Title" class="title"/>
-          <input type="text" placeholder="Author" class="author"/>
         </div>
         <div class="row">
-          <input type="text" placeholder="Subtitle" class="subtitle"/>
+          <input type="text" placeholder="Audio URL" class="audio-url"/>
+          <input type="text" placeholder="Image URL" class="image-url"/>
         </div>
         <div class="row">
-          <input type="text" placeholder="Description" class="description"/>
-        </div>
-        <div class="row">
-          <input type="text" placeholder="Link" class="link"/>
-        </div>
-        <div class="row">
-          <input type="text" placeholder="Image Link" class="imageLink"/>
-        </div>
-        <div class="row">
-          <select class="language">
-            <option value="en-us">en-us</option>
-          </select>
-          <select class="category">
-            <option value="Music">Music</option>
-          </select>
           <select class="explicit">
             <option value="Music">Explicit</option>
             <option value="Music">Not explicit</option>
           </select>
-          <input type="text" placeholder="Copyright" class="copyright"/>
+          <input type="text" placeholder="Date" class="date"/>
+          <input type="text" placeholder="Duration" class="duration"/>
         </div>
         <div class="row">
-          <input type="text" placeholder="Owner Name" class="ownerName"/>
-          <input type="text" placeholder="Owner Email" class="ownerEmail"/>
+          <textarea placeholder="Summary" rows="2" class="summary"></textarea>
         </div>
       </div>
     </div>
