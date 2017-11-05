@@ -1,5 +1,9 @@
 // output:docs/index.html, pretty:true
 head
+    title LaRSS
+    link(href="https://fonts.googleapis.com/css?family=Roboto:400,500", rel="stylesheet")
+    link(rel="stylesheet", type="text/css", href="index.css")
+    // favicon
     link(rel='apple-touch-icon', sizes='180x180', href='/apple-touch-icon.png')
     link(rel='icon', type='image/png', sizes='32x32', href='/favicon-32x32.png')
     link(rel='icon', type='image/png', sizes='16x16', href='/favicon-16x16.png')
@@ -9,3 +13,63 @@ head
     meta(name='application-name', content='LaRSS')
     meta(name='theme-color', content='#ffffff')
 body
+    .container
+        img.logo(src="logo.png")
+        .general-info
+            .header
+                .collapse-icon
+                h3.header Item 1
+            .item-container
+                .row
+                    input(type="text" placeholder="Title").title
+                    input(type="text" placeholder="Author").author
+                .row
+                    input(type="text" placeholder="Subtitle").subtitle
+                .row
+                    input(type="text" placeholder="Description").description
+                .row
+                    input(type="text" placeholder="Link").link
+                .row
+                    input(type="text" placeholder="Image Link").imageLink
+                .row
+                    select.language
+                        option(value="en-us") en-us
+                    select.category
+                        option(value="Music") Music
+                    select.explicit
+                        option(value="Music") Explicit
+                        option(value="Music") Not explicit
+                    input(type="text" placeholder="Copyright").copyright
+                .row
+                    input(type="text" placeholder="Owner Name").ownerName
+                    input(type="text" placeholder="Owner Email").ownerEmail
+        .item
+            .header
+                .collapse-icon
+                h3.header Item 1
+            .item-container
+                .row
+                    input(type="text" placeholder="Title").title
+                    input(type="text" placeholder="Author").author
+                .row
+                    input(type="text" placeholder="Subtitle").subtitle
+                .row
+                    input(type="text" placeholder="Description").description
+                .row
+                    input(type="text" placeholder="Link").link
+                .row
+                    input(type="text" placeholder="Image Link").imageLink
+                .row
+                    select.language
+                        option(value="en-us") en-us
+                    select.category
+                        option(value="Music") Music
+                    select.explicit
+                        option(value="Music") Explicit
+                        option(value="Music") Not explicit
+                    input(type="text" placeholder="Copyright").copyright
+                .row
+                    input(type="text" placeholder="Owner Name").ownerName
+                    input(type="text" placeholder="Owner Email").ownerEmail
+    script(src="index.js")
+    

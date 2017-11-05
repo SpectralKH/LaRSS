@@ -1,0 +1,79 @@
+p, input, label, div, h1, textarea, select, option {
+  font-family: "Roboto", Arial, sans-serif;
+  outline: none;
+  border: none;
+  font-size: 14px;
+}
+
+h3 {
+  color: white;
+  font-weight: 400;
+}
+
+body {
+  margin: 0px;
+  background: linear-gradient(to bottom, #1E3850, #20255E);
+}
+
+body .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+  padding: 0px 50px;
+}
+
+body .container img.logo {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 20px;
+}
+
+body .container input, body .container select {
+  display: block;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+body .container input {
+  width: 100%;
+}
+
+body .container select {
+  border: 1px solid transparent;
+}
+
+body .container select:focus {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+body .container .general-info, body .container .item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  margin: 50px 0px;
+}
+
+body .container .general-info.visible .item-container, body .container .item.visible .item-container {
+  transform: translateY(0px);
+}
+
+body .container .general-info .item-container, body .container .item .item-container {
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body .container .general-info .item-container .row, body .container .item .item-container .row {
+  display: flex;
+  width: 100%;
+}
+
+body .container .item {
+  display: block;
+}

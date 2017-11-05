@@ -1,1 +1,58 @@
 // compileExpanded:docs/index.css
+@import "variables.sass"
+p, input, label, div, h1, textarea, select, option
+    font-family: "Roboto", Arial, sans-serif
+    outline: none
+    border: none
+    font-size: 14px
+h3
+    color: white
+    font-weight: 400
+body
+    margin: 0px
+    background: linear-gradient(to bottom, #1E3850, #20255E)
+    .container
+        display: flex
+        flex-direction: column
+        align-items: center
+        max-width: 600px
+        margin-left: auto
+        margin-right: auto
+        margin-bottom: 50px
+        padding: 0px 50px
+        img.logo
+            width: 150px
+            height: 150px
+            margin-bottom: 20px
+        input, select
+            display: block
+            background-color: rgba(#000000, 0.2)
+            color: rgba(#FFFFFF, 1)
+            padding: 10px
+            margin: 5px
+            border-radius: 5px
+        input
+            width: 100%
+        select
+            border: 1px solid transparent
+            &:focus
+                border: 1px solid rgba(#FFFFFF, 0.6)
+        .general-info, .item
+            display: flex
+            flex-direction: column
+            width: 100%
+            overflow: hidden
+            margin: 50px 0px
+            .header
+
+            &.visible .item-container
+                transform: translateY(0px)
+            .item-container
+                transition: transform $transition
+                // transform: translateY(-100%)
+                .row
+                    display: flex
+                    width: 100%
+        .general-info
+        .item
+            display: block
