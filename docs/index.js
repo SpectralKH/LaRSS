@@ -72,8 +72,8 @@ var pat = localStorage.getItem("pat");
 var gistId = localStorage.getItem("gistId");
 function getFilename(pat) {
     return {
-        json: "larss-"+pat.slice(0,4)+".json",
-        rss: "larss-"+pat.slice(0,4)+".rss"
+        json: "LaRSS-"+pat.slice(0,4)+".json",
+        rss: "LaRSS-"+pat.slice(0,4)+".rss"
     };
 }
 
@@ -120,44 +120,124 @@ function load(pat, callback) {
 function gistFound(json, updatedAt) {
     var container = document.querySelector(".container");
     container.innerHTML = '<img src="logo.png" class="logo">';
-    var generalInfo = document.querySelector(".container-sample .general-info").cloneNode(true);
+    var gi = document.querySelector(".container-sample .general-info").cloneNode(true); // generalInfo
     var gio = json.generalInfo; // generalInfoObject
-    var io = json.items; // generalInfoObject
-    container.appendChild(generalInfo);
-    generalInfo.querySelector("input.title").value = gio.title;
-    generalInfo.querySelector("input.author").value = gio.author;
-    generalInfo.querySelector("input.subtitle").value = gio.subtitle;
-    generalInfo.querySelector("textarea.description").value = gio.description;
-    generalInfo.querySelector("input.url").value = gio.url;
-    generalInfo.querySelector("input.imageURL").value = gio.imageURL;
-    generalInfo.querySelector('select.language').value = gio.language;
-    generalInfo.querySelector('select.category').value = gio.category;
-    generalInfo.querySelector('select.explicit').value = gio.explicit;
-    generalInfo.querySelector("input.copyright").value = gio.copyright;
-    generalInfo.querySelector("input.name").value = gio.name;
-    generalInfo.querySelector("input.email").value = gio.email;
+    var ia = json.items; // itemsArray
+    container.appendChild(gi);
+    gi.querySelector("input.title").value = gio.title;
+    gi.querySelector("input.author").value = gio.author;
+    gi.querySelector("input.subtitle").value = gio.subtitle;
+    gi.querySelector("textarea.description").value = gio.description;
+    gi.querySelector("input.url").value = gio.url;
+    gi.querySelector("input.imageURL").value = gio.imageURL;
+    gi.querySelector('select.language').value = gio.language;
+    gi.querySelector('select.category').value = gio.category;
+    gi.querySelector('select.explicit').value = gio.explicit;
+    gi.querySelector("input.copyright").value = gio.copyright;
+    gi.querySelector("input.name").value = gio.name;
+    gi.querySelector("input.email").value = gio.email;
     for (var i = 0; i < json.items.length; i++) {
-        var itemSample = document.querySelector(".container-sample .item").cloneNode(true);
-        container.appendChild(itemSample);
-        itemSample.querySelector("input.guid").value = io[i].guid;
-        itemSample.querySelector("input.title").value = io[i].title;
-        itemSample.querySelector("input.audioURL").value = io[i].audioURL;
-        itemSample.querySelector("input.imageURL").value = io[i].imageURL;
-        itemSample.querySelector('select.explicit').value = io[i].explicit;
-        itemSample.querySelector("input.date").value = io[i].date;
-        itemSample.querySelector("input.duration").value = io[i].duration;
-        itemSample.querySelector("textarea.summary").value = io[i].summary;
+        var item = document.querySelector(".container-sample .item").cloneNode(true);
+        container.appendChild(item);
+        item.querySelector("input.guid").value          = ia[i].guid;
+        item.querySelector("input.title").value         = ia[i].title;
+        item.querySelector("h3.item-title").innerHTML   = ia[i].title;
+        item.querySelector("input.audioURL").value      = ia[i].audioURL;
+        item.querySelector("input.imageURL").value      = ia[i].imageURL;
+        item.querySelector('select.explicit').value     = ia[i].explicit;
+        item.querySelector("input.date").value          = ia[i].date;
+        item.querySelector("input.duration").value      = ia[i].duration;
+        item.querySelector("textarea.summary").value    = ia[i].summary;
     }
     resizeTextareas();
+}
+
+function save(callback) {
+    var container = document.querySelector(".container");
+    var gi = container.querySelector(".general-info"); // generalInfo
+    var gio = {}; // generalInfoObject
+    gio.title       = gi.querySelector("input.title").value;
+    gio.author      = gi.querySelector("input.author").value;
+    gio.subtitle    = gi.querySelector("input.subtitle").value;
+    gio.description = gi.querySelector("textarea.description").value;
+    gio.url         = gi.querySelector("input.url").value;
+    gio.imageURL    = gi.querySelector("input.imageURL").value;
+    gio.language    = gi.querySelector('select.language').value;
+    gio.category    = gi.querySelector('select.category').value;
+    gio.explicit    = gi.querySelector('select.explicit').value;
+    gio.copyright   = gi.querySelector("input.copyright").value;
+    gio.name        = gi.querySelector("input.name").value;
+    gio.email       = gi.querySelector("input.email").value;
+
+    var items = container.querySelectorAll(".item"); // generalInfo
+    var ia = []; // itemsArray
+    for (var i = 0; i < items.length; i++) {
+        ia[i] = {};
+        ia[i].guid      = items[i].querySelector("input.guid").value
+        ia[i].title     = items[i].querySelector("input.title").value
+        ia[i].title     = items[i].querySelector("h3.item-title").innerHTML
+        ia[i].audioURL  = items[i].querySelector("input.audioURL").value
+        ia[i].imageURL  = items[i].querySelector("input.imageURL").value
+        ia[i].explicit  = items[i].querySelector('select.explicit').value
+        ia[i].date      = items[i].querySelector("input.date").value
+        ia[i].duration  = items[i].querySelector("input.duration").value
+        ia[i].summary   = items[i].querySelector("textarea.summary").value
+    }
+    var json = {
+        generalInfo: gio,
+        items: ia
+    };
+    var xml = generateXML(json);
+    updateGist(gistId, json, xml, function(id) {
+        if (id) {
+            console.log("saved");
+            if (callback) callback();
+        } else {
+            console.log("not saved");
+        }
+    });
+}
+
+function updateGist(gistId, json, xml, callback) {
+    var req = {
+        files: {}
+    };
+    req.files[getFilename(pat).json] = {
+        content: JSON.stringify(json)
+    };
+    req.files[getFilename(pat).rss] = {
+        content: xml
+    };
+    xhr({
+        url: "https://api.github.com/gists/"+gistId,
+        auth: "token "+pat,
+        type: "POST",
+        json: req,
+        onSuccess: function(res) {
+            res = JSON.parse(res);
+            console.log("----------------------------------- updateGist suc");
+            console.log(res);
+            callback(res.id, new Date(res.updated_at));
+        },
+        onError: function(res, code) {
+            res = JSON.parse(res);
+            console.log("----------------------------------- updateGist err");
+            console.log(code);
+            console.log(res);
+            callback(false);
+        }
+    });
 }
 
 (function patDialog() {
     var button = document.querySelector("p.pat-button");
     var dialog = document.querySelector(".pat-dialog");
     var patInput = dialog.querySelector("input.pat");
-    if (pat) pat.value = pat;
-    button.addEventListener("click", function() {
-        dialog.classList.add("visible");
+    if (pat) patInput.value = pat;
+    document.addEventListener("click", function(e) {
+        if (e.target.classList.contains("pat-button")) {
+            dialog.classList.add("visible");
+        }
     });
     var saveButton = dialog.querySelector("button.save-pat");
     saveButton.addEventListener("click", function() {
@@ -207,44 +287,35 @@ function findGist(pat, gistId, callback) {
 
 function generateXML(json) {
     var xml = '';
-    function add(index, tag) {
-        if (tag.startsWith("itunes:")) var prop = tag.slice(7);
-        else var prop = tag;
-        if (index == "generalInfo") {
-            var value = json.generalInfo[prop];
-        } else {
-            var value = json.items[index][prop];
-        }
-        xml += '<'+tag+'>'+value+'</'+tag+'>';
-    }
     xml += '<?xml version="1.0" encoding="UTF-8"?>';
     xml += '<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">';
         xml += '<channel>';
-            add("generalInfo", "title");
-            add("generalInfo", "itunes:author");
-            add("generalInfo", "itunes:subtitle");
-            add("generalInfo", "description");
-            add("generalInfo", "link");
-            xml += '<itunes:image href="'+json.generalInfo.imageURL+'"/>';
-            add("generalInfo", "language");
-            xml += '<itunes:category text="'+json.generalInfo.category+'"/>';
-            add("generalInfo", "itunes:explicit");
-            add("generalInfo", "copyright");
+            xml += '<title>'                +json.generalInfo.title+        '</title>';
+            xml += '<itunes:author>'        +json.generalInfo.author+       '</itunes:author>';
+            xml += '<itunes:subtitle>'      +json.generalInfo.subtitle+     '</itunes:subtitle>';
+            xml += '<description>'          +json.generalInfo.description+  '</description>';
+            xml += '<link>'                 +json.generalInfo.link+         '</link>';
+            xml += '<itunes:image href="'   +json.generalInfo.imageURL+     '"/>';
+            xml += '<language>'             +json.generalInfo.language+     '</language>';
+            xml += '<itunes:category text="'+json.generalInfo.category+     '"/>';
+            xml += '<itunes:explicit>'      +json.generalInfo.explicit+     '</itunes:itunes:explicit>';
+            xml += '<copyright>'            +json.generalInfo.copyright+    '</copyright>';
             xml += '<itunes:owner>';
-                add("generalInfo", "itunes:name");
-                add("generalInfo", "itunes:email");
+                xml += '<itunes:name>'          +json.generalInfo.name+         '</itunes:name>';
+                xml += '<itunes:email>'         +json.generalInfo.email+        '</itunes:email>';
             xml += '</itunes:owner>';
 
-            for (var i = 0; i > json.items.length; i++) {
+            console.log(json.items);
+            for (var i = 0; i < json.items.length; i++) {
                 xml += '<item>';
-                    add(i, "guid");
-                    add(i, "title");
-                    xml += '<enclosure type="audio/mpeg" url="'+json.items[i].audioURL+'" length="0"/>';
-                    xml += '<itunes:image href="'+json.items[i].imageURL+'"/>';
-                    add(i, "itunes:explicit");
-                    add(i, "pubDate");
-                    add(i, "itunes:duration");
-                    add(i, "itunes:summary");
+                    xml += '<guid>'                             +json.items[i].guid+            '</guid>';
+                    xml += '<title>'                            +json.items[i].title+           '</title>';
+                    xml += '<enclosure type="audio/mpeg" url="' +json.items[i].audioURL+        '" length="0"/>';
+                    xml += '<itunes:image href="'               +json.items[i].imageURL+        '"/>';
+                    xml += '<itunes:explicit>'                  +json.items[i].explicit+        '</itunes:explicit>';
+                    xml += '<pubDate>'                          +json.items[i].date+            '</pubDate>';
+                    xml += '<itunes:duration>'                  +json.items[i].duration+        '</itunes:duration>';
+                    xml += '<itunes:summary>'                   +json.items[i].summary+         '</itunes:summary>';
                 xml += '</item>';
             }
         xml += '</channel>';
@@ -275,7 +346,7 @@ function createGist(pat, callback) {
         items: [
             {
                 guid: "",
-                title: "",
+                title: "New Item",
                 audioURL: "",
                 imageURL: "",
                 explicit: "no",
