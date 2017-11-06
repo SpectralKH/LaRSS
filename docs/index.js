@@ -39,8 +39,23 @@ window.xhr = function(req, options) {
 
 (function items() {
     document.addEventListener("click", function(e) {
+        // collapse
         if (e.target.classList.contains("collapse-icon")) {
             e.target.parentElement.parentElement.classList.toggle("collapsed");
+        }
+        // delete
+        if (e.target.classList.contains("delete")) {
+            
+        }
+    });
+    document.addEventListener("input", function(e) {
+        console.log(1);
+        if (e.target.classList.contains("title")) {
+            console.log(12);
+            var item = e.target.parentElement.parentElement.parentElement;
+            if (item.classList.contains("item")) {
+                item.querySelector(".item-title").innerHTML = e.target.value;
+            }
         }
     });
 })();
@@ -115,6 +130,8 @@ function load(pat, callback) {
                 }
             });
         }
+    } else {
+        showPATdialog();
     }
 }
 function gistFound(json, rssURL) {
@@ -254,6 +271,10 @@ document.addEventListener("click", function(e) {
     }
 });
 
+function showPATdialog() {
+    var dialog = document.querySelector(".pat-dialog");
+    dialog.classList.add("visible");
+}
 (function patDialog() {
     var button = document.querySelector("p.pat-button");
     var dialog = document.querySelector(".pat-dialog");
@@ -261,7 +282,7 @@ document.addEventListener("click", function(e) {
     if (pat) patInput.value = pat;
     document.addEventListener("click", function(e) {
         if (e.target.classList.contains("pat-button")) {
-            dialog.classList.add("visible");
+            showPATdialog();
         }
     });
     var saveButton = dialog.querySelector("button.save-pat");

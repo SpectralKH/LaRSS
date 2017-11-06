@@ -29,7 +29,7 @@ body
         img.logo(src="logo.png")
         .general-info.collapsed
             .header
-                .collapse-icon
+                .collapse-icon(title="Show/hide item")
                 h3.item-title General Info
                 p.pat-button GitHub Personal Access Token
             .item-container
@@ -57,8 +57,9 @@ body
                     input(type="text" placeholder="Owner Email").email
         .item.collapsed
             .header
-                .collapse-icon
+                .collapse-icon(title="Show/hide item")
                 h3.item-title Item 1
+                .delete-icon(title="Delete item")
             .item-container
                 .row
                     input(type="text" placeholder="GUID").guid
