@@ -41,17 +41,17 @@ window.xhr = function(req, options) {
     document.addEventListener("click", function(e) {
         // collapse
         if (e.target.classList.contains("collapse-icon")) {
-            e.target.parentElement.parentElement.classList.toggle("collapsed");
+            var item = e.target.parentElement.parentElement;
+            item.classList.toggle("collapsed");
         }
         // delete
-        if (e.target.classList.contains("delete")) {
-            
+        if (e.target.classList.contains("delete-icon")) {
+            var item = e.target.parentElement.parentElement;
+            item.parentElement.removeChild(item);
         }
     });
     document.addEventListener("input", function(e) {
-        console.log(1);
         if (e.target.classList.contains("title")) {
-            console.log(12);
             var item = e.target.parentElement.parentElement.parentElement;
             if (item.classList.contains("item")) {
                 item.querySelector(".item-title").innerHTML = e.target.value;

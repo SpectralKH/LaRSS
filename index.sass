@@ -86,7 +86,9 @@ body
                     background-repeat: no-repeat
                     background-size: cover
                     cursor: pointer
-                    transition: transform $transition
+                    transition: transform $transition, opacity $transition
+                    &:active
+                        opacity: 0.8
                 .collapse-icon
                     height: 24px
                     width: 24px
