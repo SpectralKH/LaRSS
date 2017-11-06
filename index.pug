@@ -19,11 +19,12 @@ body
             input.pat(tabindex="-1", placeholder="GitHub Personal Access Token")
             h2 How to get your personal access token
             p 1. Log in or register on <a target="_blank" href="https://github.com/">GitHub</a>.
-            p 2. Create a new "Personal access token" by going to <a target="_blank" href="https://github.com/settings/tokens/new">this link</a>. Write Taskler or whatever into the Token description field. Make sure "gist" is checked, and click "Generate token".
+            p 2. Create a new "Personal access token" by going to <a target="_blank" href="https://github.com/settings/tokens/new">this link</a>. Write LaRSS into the Token description field. Make sure "gist" is checked, and click "Generate token".
             p 3. Copy the random text shown in the green field (This is your personal access token). Paste this text into the field above, in every instance of Taskler you have.
             p <b>If your personal access token has already been used, your offline tasks will be replaced.</b>
             button(tabindex="-1").save-pat SAVE
     .container
+    .container-sample
         img.logo(src="logo.png")
         .general-info
             .header
@@ -37,22 +38,22 @@ body
                 .row
                     input(type="text" placeholder="Subtitle").subtitle
                 .row
-                    textarea(type="text" placeholder="Description" rows="1").description
+                    textarea(placeholder="Description" rows="1").description
                 .row
                     input(type="text" placeholder="URL").url
-                    input(type="text" placeholder="Image URL").image-url
+                    input(type="text" placeholder="Image URL").imageURL
                 .row
                     select.language
                         option(value="en-us") en-us
                     select.category
                         option(value="Music") Music
                     select.explicit
-                        option(value="Music") Explicit
-                        option(value="Music") Not explicit
+                        option(value="yes") Explicit
+                        option(value="no") Not explicit
                     input(type="text" placeholder="Copyright").copyright
                 .row
-                    input(type="text" placeholder="Owner Name").ownerName
-                    input(type="text" placeholder="Owner Email").ownerEmail
+                    input(type="text" placeholder="Owner Name").name
+                    input(type="text" placeholder="Owner Email").email
         .item
             .header
                 .collapse-icon
@@ -62,12 +63,12 @@ body
                     input(type="text" placeholder="GUID").guid
                     input(type="text" placeholder="Title").title
                 .row
-                    input(type="text" placeholder="Audio URL").audio-url
-                    input(type="text" placeholder="Image URL").image-url
+                    input(type="text" placeholder="Audio URL").audioURL
+                    input(type="text" placeholder="Image URL").imageURL
                 .row
                     select.explicit
-                        option(value="Music") Explicit
-                        option(value="Music") Not explicit
+                        option(value="yes") Explicit
+                        option(value="no") Not explicit
                     input(type="text" placeholder="Date").date
                     input(type="text" placeholder="Duration").duration
                 .row
