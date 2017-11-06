@@ -1,6 +1,6 @@
 // compileExpanded:docs/index.css
 @import "variables.sass"
-p, input, label, div, h1, textarea, select, option
+p, input, label, div, h1, textarea, select, option, button
     font-family: "Roboto", Arial, sans-serif
     outline: none
     border: none
@@ -19,10 +19,37 @@ body
         margin-right: auto
         margin-bottom: 50px
         padding: 0px 50px
+        position: relative
+        button
+            position: absolute
+            top: calc(150px/2)
+            cursor: pointer
+            background-color: transparent
+            color: rgba(#FFFFFF, 0.7)
+            text-transform: uppercase
+            font-weight: 500
+            font-size: 16px
+            transition: color $transition
+            padding: 8px
+            &:active
+                color: rgba(#FFFFFF, 1)
+        button.save-button
+            left: calc(100% - 90px)
+            transform: translateX(-50%)
+            &.saving
+                pointer-events: none
+            &.error
+                pointer-events: none
+                color: rgba(#FF0000, 0.7)
+            &.saved
+                pointer-events: none
+                color: rgba(#24FF68, 0.7)
+        button.rss-link
+            right: calc(100% - 90px)
+            transform: translateX(50%)
         img.logo
             width: 150px
             height: 150px
-            margin-bottom: 20px
         input, select, textarea
             display: block
             background-color: rgba(#000000, 0.2)
@@ -85,7 +112,6 @@ body
         .general-info
         .item
             display: block
-
     .dialog-container
         width: 100%
         height: 100%
@@ -137,7 +163,6 @@ body
                 &:active
                     opacity: 0.8
             button
-                outline: none
                 background-color: transparent
                 border: none
                 color: #000000

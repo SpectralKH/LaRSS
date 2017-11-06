@@ -82,16 +82,16 @@ function load(pat, callback) {
     if (pat) {
         // if gistId is already saved, load it. Otherwise, find the gistId
         if (gistId) {
-            findGist(pat, gistId, function(content) {
+            findGist(pat, gistId, function(content, rssURL) {
                 // if the gist was found, load it. Otherwise
                 if (content) {
-                    gistFound(content);
+                    gistFound(content, rssURL);
                     if (callback) callback();
                 } else {
-                    createGist(pat, function(id, content) {
+                    createGist(pat, function(id, content, rssURL) {
                         localStorage.setItem("gistId", id);
                         gistId = id;
-                        gistFound(content);
+                        gistFound(content, rssURL);
                         if (callback) callback();
                     });
                     if (callback) callback();
@@ -100,16 +100,16 @@ function load(pat, callback) {
         } else {
             findGistId(pat, function(id) {
                 if (id) {
-                    findGist(pat, id, function(content) {
-                        gistFound(content);
+                    findGist(pat, id, function(content, rssURL) {
+                        gistFound(content, rssURL);
                         if (callback) callback();
                         resizeTextareas();
                     });
                 } else {
-                    createGist(pat, function(id, content) {
+                    createGist(pat, function(id, content, rssURL) {
                         localStorage.setItem("gistId", id);
                         gistId = id;
-                        gistFound(content);
+                        gistFound(content, rssURL);
                         if (callback) callback();
                     });
                 }
@@ -117,9 +117,11 @@ function load(pat, callback) {
         }
     }
 }
-function gistFound(json, updatedAt) {
+function gistFound(json, rssURL) {
     var container = document.querySelector(".container");
-    container.innerHTML = '<img src="logo.png" class="logo">';
+    container.innerHTML = '<button class="save-button">Save</button>';
+    container.innerHTML += '<a target="_blank" href="'+rssURL+'"><button class="rss-link">RSS Link</button></a>';
+    container.innerHTML += '<img src="logo.png" class="logo">';
     var gi = document.querySelector(".container-sample .general-info").cloneNode(true); // generalInfo
     var gio = json.generalInfo; // generalInfoObject
     var ia = json.items; // itemsArray
@@ -191,9 +193,10 @@ function save(callback) {
     updateGist(gistId, json, xml, function(id) {
         if (id) {
             console.log("saved");
-            if (callback) callback();
+            if (callback) callback(true);
         } else {
             console.log("not saved");
+            if (callback) callback(false);
         }
     });
 }
@@ -228,6 +231,28 @@ function updateGist(gistId, json, xml, callback) {
         }
     });
 }
+
+document.addEventListener("click", function(e) {
+    if (e.target.classList.contains("save-button")) {
+        e.target.classList.add("saving");
+        e.target.innerHTML = "Saving...";
+        save(function(success) {
+            if (success) {
+                e.target.classList.remove("saving");
+                e.target.classList.add("saved");
+                e.target.innerHTML = "Saved";
+                setTimeout(function() {
+                    e.target.classList.remove("saved");
+                    e.target.innerHTML = "Save";
+                },3000);
+            } else {
+                e.target.classList.remove("saving");
+                e.target.classList.add("error");
+                e.target.innerHTML = "Error saving :l";
+            }
+        });
+    }
+});
 
 (function patDialog() {
     var button = document.querySelector("p.pat-button");
@@ -273,7 +298,7 @@ function findGist(pat, gistId, callback) {
             console.log(gist);
             var jsonFile = gist.files[getFilename(pat).json];
             var rssFile = gist.files[getFilename(pat).rss];
-            callback(JSON.parse(jsonFile.content), new Date(gist.updated_at));
+            callback(JSON.parse(jsonFile.content), rssFile.raw_url);
         },
         onError: function(res, code) {
             res = JSON.parse(res);
@@ -371,7 +396,8 @@ function createGist(pat, callback) {
             res = JSON.parse(res);
             console.log("----------------------------------- createGist suc");
             console.log(res);
-            callback(res.id, defaultJSON, new Date(res.updated_at));
+            var rssFile = gist.files[getFilename(pat).rss];
+            callback(res.id, defaultJSON, rssFile.raw_url);
         },
         onError: function(res, code) {
             res = JSON.parse(res);
