@@ -144,7 +144,13 @@ function load(pat, callback) {
         showPATdialog();
     }
 }
+function getGistPermaLink(old) {
+    var start = old.indexOf("/raw/") + 4;
+    var end = old.indexOf("/LaRSS");
+    return old.slice(0, start)+old.slice(end);
+}
 function gistFound(json, rssURL) {
+    rssURL = getGistPermaLink(rssURL);
     var container = document.querySelector(".container");
     container.innerHTML = '<button class="save-button">Save</button>';
     container.innerHTML += '<a target="_blank" href="'+rssURL+'"><button class="rss-link">RSS Link</button></a>';
@@ -157,7 +163,7 @@ function gistFound(json, rssURL) {
     gi.querySelector("input.author").value = gio.author;
     gi.querySelector("input.subtitle").value = gio.subtitle;
     gi.querySelector("textarea.description").value = gio.description;
-    gi.querySelector("input.url").value = gio.url;
+    gi.querySelector("input.link").value = gio.link;
     gi.querySelector("input.imageURL").value = gio.imageURL;
     gi.querySelector('select.language').value = gio.language;
     gi.querySelector('select.category').value = gio.category;
@@ -189,7 +195,7 @@ function save(callback) {
     gio.author      = gi.querySelector("input.author").value;
     gio.subtitle    = gi.querySelector("input.subtitle").value;
     gio.description = gi.querySelector("textarea.description").value;
-    gio.url         = gi.querySelector("input.url").value;
+    gio.link        = gi.querySelector("input.link").value;
     gio.imageURL    = gi.querySelector("input.imageURL").value;
     gio.language    = gi.querySelector('select.language').value;
     gio.category    = gi.querySelector('select.category').value;
@@ -343,39 +349,39 @@ function findGist(pat, gistId, callback) {
 
 function generateXML(json) {
     var xml = '';
-    xml += '<?xml version="1.0" encoding="UTF-8"?>';
-    xml += '<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">';
-        xml += '<channel>';
-            xml += '<title>'                +json.generalInfo.title+        '</title>';
-            xml += '<itunes:author>'        +json.generalInfo.author+       '</itunes:author>';
-            xml += '<itunes:subtitle>'      +json.generalInfo.subtitle+     '</itunes:subtitle>';
-            xml += '<description>'          +json.generalInfo.description+  '</description>';
-            xml += '<link>'                 +json.generalInfo.link+         '</link>';
-            xml += '<itunes:image href="'   +json.generalInfo.imageURL+     '"/>';
-            xml += '<language>'             +json.generalInfo.language+     '</language>';
-            xml += '<itunes:category text="'+json.generalInfo.category+     '"/>';
-            xml += '<itunes:explicit>'      +json.generalInfo.explicit+     '</itunes:itunes:explicit>';
-            xml += '<copyright>'            +json.generalInfo.copyright+    '</copyright>';
-            xml += '<itunes:owner>';
-                xml += '<itunes:name>'          +json.generalInfo.name+         '</itunes:name>';
-                xml += '<itunes:email>'         +json.generalInfo.email+        '</itunes:email>';
-            xml += '</itunes:owner>';
+    xml += '<?xml version="1.0" encoding="UTF-8"?>\n';
+    xml += '<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">\n';
+    xml += '    <channel>\n';
+    xml += '        <title>'                +json.generalInfo.title+        '</title>\n';
+    xml += '        <itunes:author>'        +json.generalInfo.author+       '</itunes:author>\n';
+    xml += '        <itunes:subtitle>'      +json.generalInfo.subtitle+     '</itunes:subtitle>\n';
+    xml += '        <description>'          +json.generalInfo.description+  '</description>\n';
+    xml += '        <link>'                 +json.generalInfo.link+         '</link>\n';
+    xml += '        <itunes:image href="'   +json.generalInfo.imageURL+     '"/>\n';
+    xml += '        <language>'             +json.generalInfo.language+     '</language>\n';
+    xml += '        <itunes:category text="'+json.generalInfo.category+     '"/>\n';
+    xml += '        <itunes:explicit>'      +json.generalInfo.explicit+     '</itunes:itunes:explicit>\n';
+    xml += '        <copyright>'            +json.generalInfo.copyright+    '</copyright>\n';
+    xml += '        <itunes:owner>\n';
+    xml += '            <itunes:name>'          +json.generalInfo.name+         '</itunes:name>\n';
+    xml += '            <itunes:email>'         +json.generalInfo.email+        '</itunes:email>\n';
+    xml += '        </itunes:owner>\n';
 
             console.log(json.items);
             for (var i = 0; i < json.items.length; i++) {
-                xml += '<item>';
-                    xml += '<guid>'                             +json.items[i].guid+            '</guid>';
-                    xml += '<title>'                            +json.items[i].title+           '</title>';
-                    xml += '<enclosure type="audio/mpeg" url="' +json.items[i].audioURL+        '" length="0"/>';
-                    xml += '<itunes:image href="'               +json.items[i].imageURL+        '"/>';
-                    xml += '<itunes:explicit>'                  +json.items[i].explicit+        '</itunes:explicit>';
-                    xml += '<pubDate>'                          +json.items[i].date+            '</pubDate>';
-                    xml += '<itunes:duration>'                  +json.items[i].duration+        '</itunes:duration>';
-                    xml += '<itunes:summary>'                   +json.items[i].summary+         '</itunes:summary>';
-                xml += '</item>';
+                xml += '        <item>\n';
+                xml += '            <guid>'                             +json.items[i].guid+            '</guid>\n';
+                xml += '            <title>'                            +json.items[i].title+           '</title>\n';
+                xml += '            <enclosure type="audio/mpeg" url="' +json.items[i].audioURL+        '" length="0"/>\n';
+                xml += '            <itunes:image href="'               +json.items[i].imageURL+        '"/>\n';
+                xml += '            <itunes:explicit>'                  +json.items[i].explicit+        '</itunes:explicit>\n';
+                xml += '            <pubDate>'                          +json.items[i].date+            '</pubDate>\n';
+                xml += '            <itunes:duration>'                  +json.items[i].duration+        '</itunes:duration>\n';
+                xml += '            <itunes:summary>'                   +json.items[i].summary+         '</itunes:summary>\n';
+                xml += '        </item>\n';
             }
-        xml += '</channel>';
-    xml += '</rss>';
+    xml += '    </channel>\n';
+    xml += '</rss>\n';
     return xml;
 }
 
@@ -390,7 +396,7 @@ function createGist(pat, callback) {
             author: "",
             subtitle: "",
             description: "",
-            url: "",
+            link: "",
             imageURL: "",
             explicit: "no",
             language: "en-us",
