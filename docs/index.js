@@ -113,13 +113,21 @@ function load(pat, callback) {
                     gistFound(content, rssURL);
                     if (callback) callback();
                 } else {
-                    createGist(pat, function(id, content, rssURL) {
-                        localStorage.setItem("gistId", id);
-                        gistId = id;
-                        gistFound(content, rssURL);
-                        if (callback) callback();
-                    });
-                    if (callback) callback();
+                    findGistId(pat, function(id) {
+                        if (id) {
+                            findGist(pat, id, function(content, rssURL) {
+                                gistFound(content, rssURL);
+                                if (callback) callback();
+                                resizeTextareas();
+                            });
+                        } else {
+                            createGist(pat, function(id, content, rssURL) {
+                                localStorage.setItem("gistId", id);
+                                gistId = id;
+                                gistFound(content, rssURL);
+                                if (callback) callback();
+                            });
+                        }
                 }
             });
         } else {
