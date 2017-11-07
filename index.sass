@@ -8,6 +8,38 @@ p, input, label, div, h1, textarea, select, option, button
 body
     margin: 0px
     background: linear-gradient(to bottom, #394290, #22244A)
+    .side-icon
+        position: fixed
+        align-items: center
+        z-index: 2
+        pointer-events: none
+        svg
+            pointer-events: all
+            margin: 12px
+            padding: 8px
+            cursor: pointer
+            width: 20px
+            height: 20px
+            &:hover + .tooltip
+                opacity: 1
+                transform: translateX(0px) scale(1)
+            transition: opacity $transition
+            transform: scale(1)
+            &:active
+                // transform: scale(1.1)
+                opacity: 0.8
+    .pat-settings
+        display: flex
+        right: 0px
+        top: 0px
+        .tooltip
+            order: -1
+            transform: translateX(20px) scale(0.9)
+            &::after
+                right: -7px
+                border-top: 15px solid transparent
+                border-bottom: 15px solid transparent
+                border-left: 7px solid rgba(0, 0, 0, 0.2)
     .container-sample
         display: none
     .container
@@ -80,7 +112,7 @@ body
             .header
                 display: flex
                 align-items: center
-                .collapse-icon, .delete-icon
+                .collapse-icon, .delete-icon, .add-icon
                     display: inline-block
                     background-position: center
                     background-repeat: no-repeat
@@ -99,18 +131,17 @@ body
                     margin-left: auto
                     margin-right: 10px
                     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>')
+                .add-icon
+                    height: 24px
+                    width: 24px
+                    margin-left: auto
+                    margin-right: calc(10px - 2px)
                 h3.item-title
                     display: inline-block
                     margin: 5px
                     color: white
                     font-weight: 400
                     font-size: 17px
-                p.pat-button
-                    margin-left: auto
-                    margin-right: 10px
-                    cursor: pointer
-                    color: rgba(#FFFFFF, 0.8)
-                    padding: 4px
             &.visible .item-container
                 transform: translateY(0px)
             .item-container

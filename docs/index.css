@@ -10,6 +10,51 @@ body {
   background: linear-gradient(to bottom, #394290, #22244A);
 }
 
+body .side-icon {
+  position: fixed;
+  align-items: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+body .side-icon svg {
+  pointer-events: all;
+  margin: 12px;
+  padding: 8px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1);
+}
+
+body .side-icon svg:hover + .tooltip {
+  opacity: 1;
+  transform: translateX(0px) scale(1);
+}
+
+body .side-icon svg:active {
+  opacity: 0.8;
+}
+
+body .pat-settings {
+  display: flex;
+  right: 0px;
+  top: 0px;
+}
+
+body .pat-settings .tooltip {
+  order: -1;
+  transform: translateX(20px) scale(0.9);
+}
+
+body .pat-settings .tooltip::after {
+  right: -7px;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 7px solid rgba(0, 0, 0, 0.2);
+}
+
 body .container-sample {
   display: none;
 }
@@ -119,7 +164,7 @@ body .container .general-info .header, body .container .item .header {
   align-items: center;
 }
 
-body .container .general-info .header .collapse-icon, body .container .general-info .header .delete-icon, body .container .item .header .collapse-icon, body .container .item .header .delete-icon {
+body .container .general-info .header .collapse-icon, body .container .general-info .header .delete-icon, body .container .general-info .header .add-icon, body .container .item .header .collapse-icon, body .container .item .header .delete-icon, body .container .item .header .add-icon {
   display: inline-block;
   background-position: center;
   background-repeat: no-repeat;
@@ -128,7 +173,7 @@ body .container .general-info .header .collapse-icon, body .container .general-i
   transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-body .container .general-info .header .collapse-icon:active, body .container .general-info .header .delete-icon:active, body .container .item .header .collapse-icon:active, body .container .item .header .delete-icon:active {
+body .container .general-info .header .collapse-icon:active, body .container .general-info .header .delete-icon:active, body .container .general-info .header .add-icon:active, body .container .item .header .collapse-icon:active, body .container .item .header .delete-icon:active, body .container .item .header .add-icon:active {
   opacity: 0.8;
 }
 
@@ -146,20 +191,19 @@ body .container .general-info .header .delete-icon, body .container .item .heade
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
 }
 
+body .container .general-info .header .add-icon, body .container .item .header .add-icon {
+  height: 24px;
+  width: 24px;
+  margin-left: auto;
+  margin-right: calc(10px - 2px);
+}
+
 body .container .general-info .header h3.item-title, body .container .item .header h3.item-title {
   display: inline-block;
   margin: 5px;
   color: white;
   font-weight: 400;
   font-size: 17px;
-}
-
-body .container .general-info .header p.pat-button, body .container .item .header p.pat-button {
-  margin-left: auto;
-  margin-right: 10px;
-  cursor: pointer;
-  color: rgba(255, 255, 255, 0.8);
-  padding: 4px;
 }
 
 body .container .general-info.visible .item-container, body .container .item.visible .item-container {

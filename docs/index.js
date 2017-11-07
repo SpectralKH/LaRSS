@@ -44,6 +44,16 @@ window.xhr = function(req, options) {
             var item = e.target.parentElement.parentElement;
             item.classList.toggle("collapsed");
         }
+        // add
+        if (e.target.classList.contains("add-icon")) {
+            var item = document.querySelector(".container-sample .item").cloneNode(true);
+            var container = document.querySelector(".container");
+            container.insertBefore(item, document.querySelector(".container .item"));
+            var textareas = item.querySelectorAll("textarea");
+            for (var i = 0; i < textareas.length; i++) {
+                resizeTextarea(textareas[i]);
+            }
+        }
         // delete
         if (e.target.classList.contains("delete-icon")) {
             var item = e.target.parentElement.parentElement;
@@ -61,7 +71,7 @@ window.xhr = function(req, options) {
 })();
 
 (function textareaResize() {
-    function resizeTextarea(textarea) {
+    window.resizeTextarea = function(textarea) {
         textarea.style.height = "auto";
         textarea.parentElement.style.height = "auto";
         var newHeight = textarea.scrollHeight;
@@ -276,12 +286,12 @@ function showPATdialog() {
     dialog.classList.add("visible");
 }
 (function patDialog() {
-    var button = document.querySelector("p.pat-button");
+    var button = document.querySelector(".pat-settings");
     var dialog = document.querySelector(".pat-dialog");
     var patInput = dialog.querySelector("input.pat");
     if (pat) patInput.value = pat;
     document.addEventListener("click", function(e) {
-        if (e.target.classList.contains("pat-button")) {
+        if (e.target.classList.contains("pat-settings")) {
             showPATdialog();
         }
     });
