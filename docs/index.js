@@ -305,10 +305,8 @@ function showPATdialog() {
     var dialog = document.querySelector(".pat-dialog");
     var patInput = dialog.querySelector("input.pat");
     if (pat) patInput.value = pat;
-    document.addEventListener("click", function(e) {
-        if (e.target.classList.contains("pat-settings")) {
-            showPATdialog();
-        }
+    button.addEventListener("click", function(e) {
+        showPATdialog();
     });
     var saveButton = dialog.querySelector("button.save-pat");
     saveButton.addEventListener("click", function() {
