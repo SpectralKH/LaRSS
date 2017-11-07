@@ -351,36 +351,36 @@ function generateXML(json) {
     var xml = '';
     xml += '<?xml version="1.0" encoding="UTF-8"?>\n';
     xml += '<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">\n';
-    xml += '    <channel>\n';
-    xml += '        <title>'                +json.generalInfo.title+        '</title>\n';
-    xml += '        <itunes:author>'        +json.generalInfo.author+       '</itunes:author>\n';
-    xml += '        <itunes:subtitle>'      +json.generalInfo.subtitle+     '</itunes:subtitle>\n';
-    xml += '        <description>'          +json.generalInfo.description+  '</description>\n';
-    xml += '        <link>'                 +json.generalInfo.link+         '</link>\n';
-    xml += '        <itunes:image href="'   +json.generalInfo.imageURL+     '"/>\n';
-    xml += '        <language>'             +json.generalInfo.language+     '</language>\n';
-    xml += '        <itunes:category text="'+json.generalInfo.category+     '"/>\n';
-    xml += '        <itunes:explicit>'      +json.generalInfo.explicit+     '</itunes:itunes:explicit>\n';
-    xml += '        <copyright>'            +json.generalInfo.copyright+    '</copyright>\n';
-    xml += '        <itunes:owner>\n';
-    xml += '            <itunes:name>'          +json.generalInfo.name+         '</itunes:name>\n';
-    xml += '            <itunes:email>'         +json.generalInfo.email+        '</itunes:email>\n';
-    xml += '        </itunes:owner>\n';
+    xml += '	<channel>\n';
+    xml += '		<title>'                +json.generalInfo.title+        '</title>\n';
+    xml += '		<itunes:author>'        +json.generalInfo.author+       '</itunes:author>\n';
+    xml += '		<itunes:subtitle>'      +json.generalInfo.subtitle+     '</itunes:subtitle>\n';
+    xml += '		<description>'          +json.generalInfo.description+  '</description>\n';
+    xml += '		<link>'                 +json.generalInfo.link+         '</link>\n';
+    xml += '		<itunes:image href="'   +json.generalInfo.imageURL+     '"/>\n';
+    xml += '		<language>'             +json.generalInfo.language+     '</language>\n';
+    xml += '		<itunes:category text="'+json.generalInfo.category+     '"/>\n';
+    xml += '		<itunes:explicit>'      +json.generalInfo.explicit+     '</itunes:explicit>\n';
+    xml += '		<copyright>'            +json.generalInfo.copyright+    '</copyright>\n';
+    xml += '		<itunes:owner>\n';
+    xml += '			<itunes:name>'          +json.generalInfo.name+         '</itunes:name>\n';
+    xml += '			<itunes:email>'         +json.generalInfo.email+        '</itunes:email>\n';
+    xml += '		</itunes:owner>\n';
+    
+        for (var i = 0; i < json.items.length; i++) {
+            xml += '		<item>\n';
+            xml += '			<guid>'                             +json.items[i].guid+            '</guid>\n';
+            xml += '			<title>'                            +json.items[i].title+           '</title>\n';
+            xml += '			<enclosure type="audio/mpeg" url="' +json.items[i].audioURL+        '" length="0"/>\n';
+            xml += '			<itunes:image href="'               +json.items[i].imageURL+        '"/>\n';
+            xml += '			<itunes:explicit>'                  +json.items[i].explicit+        '</itunes:explicit>\n';
+            xml += '			<pubDate>'                          +json.items[i].date+            '</pubDate>\n';
+            xml += '			<itunes:duration>'                  +json.items[i].duration+        '</itunes:duration>\n';
+            xml += '			<itunes:summary>'                   +json.items[i].summary+         '</itunes:summary>\n';
+            xml += '		</item>\n';
+        }
 
-            console.log(json.items);
-            for (var i = 0; i < json.items.length; i++) {
-                xml += '        <item>\n';
-                xml += '            <guid>'                             +json.items[i].guid+            '</guid>\n';
-                xml += '            <title>'                            +json.items[i].title+           '</title>\n';
-                xml += '            <enclosure type="audio/mpeg" url="' +json.items[i].audioURL+        '" length="0"/>\n';
-                xml += '            <itunes:image href="'               +json.items[i].imageURL+        '"/>\n';
-                xml += '            <itunes:explicit>'                  +json.items[i].explicit+        '</itunes:explicit>\n';
-                xml += '            <pubDate>'                          +json.items[i].date+            '</pubDate>\n';
-                xml += '            <itunes:duration>'                  +json.items[i].duration+        '</itunes:duration>\n';
-                xml += '            <itunes:summary>'                   +json.items[i].summary+         '</itunes:summary>\n';
-                xml += '        </item>\n';
-            }
-    xml += '    </channel>\n';
+    xml += '	</channel>\n';
     xml += '</rss>\n';
     return xml;
 }
