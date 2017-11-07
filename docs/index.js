@@ -458,6 +458,7 @@ function findGistId(pat, callback) {
             for (var i = 0; i < gists.length; i++) {
                 if (gists[i].files[getFilename(pat).json]) {
                     callback(gists[i].id);
+                    localStorage.setItem("gistId", gists[i].id);
                     return;
                 }
             }
