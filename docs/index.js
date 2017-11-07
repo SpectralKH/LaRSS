@@ -366,7 +366,7 @@ function generateXML(json) {
     xml += '			<itunes:name>'          +json.generalInfo.name+         '</itunes:name>\n';
     xml += '			<itunes:email>'         +json.generalInfo.email+        '</itunes:email>\n';
     xml += '		</itunes:owner>\n';
-    
+
         for (var i = 0; i < json.items.length; i++) {
             xml += '		<item>\n';
             xml += '			<guid>'                             +json.items[i].guid+            '</guid>\n';
@@ -429,12 +429,12 @@ function createGist(pat, callback) {
         auth: "token "+pat,
         type: "POST",
         json: req,
-        onSuccess: function(res) {
-            res = JSON.parse(res);
+        onSuccess: function(gist) {
+            gist = JSON.parse(gist);
             console.log("----------------------------------- createGist suc");
-            console.log(res);
+            console.log(gist);
             var rssFile = gist.files[getFilename(pat).rss];
-            callback(res.id, defaultJSON, rssFile.raw_url);
+            callback(gist.id, defaultJSON, rssFile.raw_url);
         },
         onError: function(res, code) {
             res = JSON.parse(res);
@@ -447,7 +447,7 @@ function createGist(pat, callback) {
 
 function findGistId(pat, callback) {
     xhr({
-        url: "https://api.github.com/gists/"+gistId,
+        url: "https://api.github.com/gists",
         auth: "token "+pat,
         type: "GET",
         req: "",
@@ -456,7 +456,7 @@ function findGistId(pat, callback) {
             console.log("----------------------------------- findgistid suc");
             console.log(gists);
             for (var i = 0; i < gists.length; i++) {
-                if (gist[i].files[getFilename(pat).json]) {
+                if (gists[i].files[getFilename(pat).json]) {
                     callback(gists[i].id);
                     return;
                 }
