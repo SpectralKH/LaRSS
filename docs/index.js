@@ -128,6 +128,7 @@ function load(pat, callback) {
                                 if (callback) callback();
                             });
                         }
+                    }
                 }
             });
         } else {
@@ -309,7 +310,7 @@ function showPATdialog() {
             showPATdialog();
         }
     });
-    var saveButton = dialog.querySelector("button.save-pat");
+    var saveButton = dialog.querySelector("button¯.save-pat");
     saveButton.addEventListener("click", function() {
         console.log("saving access token");
         // save personal access token
